@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import OllamaChat from '@/components/OllamaChat.vue';
+import OllamaChat from "@/components/OllamaChat.vue";
 </script>
 
 <template>

@@ -1,14 +1,24 @@
-import './assets/main.css'
+import "./assets/main.css";
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import "primevue/resources/themes/aura-light-green/theme.css";
+import "primeflex/primeflex.css";
+import "primeicons/primeicons.css";
+import PrimeVue from "primevue/config";
+import Button from "primevue/button";
+import Textarea from "primevue/textarea";
 
-import App from './App.vue'
-import router from './router'
+import App from "./App.vue";
+import router from "./router";
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(createPinia())
-app.use(router)
+app.use(PrimeVue);
+app.use(createPinia());
+app.use(router);
 
-app.mount('#app')
+app.component("Button", Button);
+app.component("Textarea", Textarea);
+
+app.mount("#app");
