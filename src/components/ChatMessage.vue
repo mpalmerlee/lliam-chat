@@ -27,10 +27,10 @@ const messageClass = computed(() => {
   max-width: 70%;
 }
 .userMessage {
-  background-color: var(--green-100);
+  background-color: var(--primary-50);
 }
 
 .agentMessage {
-  background-color: var(--blue-200);
+  background-color: var(--blue-50);
 }
 </style>

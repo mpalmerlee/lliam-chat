@@ -3,6 +3,13 @@ import ollama, { type Message, type ChatResponse } from "ollama";
 import { ref } from "vue";
 import ChatMessage from "./ChatMessage.vue";
 
+const chatArea = ref<HTMLElement | null>(null);
+
+const scrollToBottom = () => {
+  if (!chatArea.value) return;
+  chatArea.value.scrollTop = chatArea.value.scrollHeight;
+};
+
 const pullModelWithProgress = async (model: string) => {
   const progress = ref(0);
   const pullProgress = await ollama.pull({ model, stream: true });
@@ -43,19 +50,26 @@ const submitChat = async () => {
   const response = await tryChat("codellama", inputMessage);
   if (!response) return;
 
+  const appendMessage = () => {
+    const content = currentOutputMessageContent.value.trim();
+    if (content) {
+      messages.value.push({
+        role: "agent",
+        content: content,
+      });
+      scrollToBottom();
+    }
+    currentOutputMessageContent.value = "";
+  };
+
   for await (const part of response) {
     currentOutputMessageContent.value += part.message.content;
+    scrollToBottom();
     if (part.message.content.endsWith("\n")) {
-      const content = currentOutputMessageContent.value.trim();
-      if (content) {
-        messages.value.push({
-          role: "agent",
-          content: content,
-        });
-      }
-      currentOutputMessageContent.value = "";
+      appendMessage();
     }
   }
+  appendMessage();
 };
 
 const messageContent = ref("Why is the sky blue?");
@@ -68,7 +82,7 @@ const currentOutputMessageContent = ref("");
 <template>
   <div id="chatBox">
     <div id="chatContainer">
-      <div id="chatArea">
+      <div id="chatArea" ref="chatArea">
         <div v-for="message in messages" :key="message.content">
           <ChatMessage :message="message" />
         </div>
