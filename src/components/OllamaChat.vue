@@ -46,6 +46,7 @@ const submitChat = async () => {
   messageContent.value = "";
   const inputMessage = { role: "user", content };
   messages.value.push(inputMessage);
+  scrollToBottom();
 
   const response = await tryChat("codellama", inputMessage);
   if (!response) return;
@@ -65,10 +66,7 @@ const submitChat = async () => {
 
   for await (const part of response) {
     currentOutputMessageContent.value += part.message.content;
-    // scrollToBottom();
-    // if (part.message.content.endsWith("\n")) {
-    //   appendMessage();
-    // }
+    scrollToBottom();
   }
   appendMessage();
 };
