@@ -53,6 +53,7 @@ const submitChat = async () => {
   const appendMessage = () => {
     const content = currentOutputMessageContent.value.trim();
     if (content) {
+      console.log(content);
       messages.value.push({
         role: "agent",
         content: content,
@@ -64,10 +65,10 @@ const submitChat = async () => {
 
   for await (const part of response) {
     currentOutputMessageContent.value += part.message.content;
-    scrollToBottom();
-    if (part.message.content.endsWith("\n")) {
-      appendMessage();
-    }
+    // scrollToBottom();
+    // if (part.message.content.endsWith("\n")) {
+    //   appendMessage();
+    // }
   }
   appendMessage();
 };

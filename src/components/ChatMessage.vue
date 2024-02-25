@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Message } from "ollama";
 import { computed } from "vue";
+import MarkdownRenderer from "./MarkdownRenderer.vue";
 
 interface Props {
   message: Message;
@@ -16,7 +17,9 @@ const messageClass = computed(() => {
 </script>
 
 <template>
-  <div :class="messageClass">{{ props.message.content }}</div>
+  <div :class="messageClass">
+    <MarkdownRenderer :source="props.message.content"></MarkdownRenderer>
+  </div>
 </template>
 
 <style scoped>
