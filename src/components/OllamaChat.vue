@@ -41,7 +41,13 @@ const tryChat = async (
   return response;
 };
 
-const submitChat = async () => {
+const submitChat = async (event: Event) => {
+  if (
+    event instanceof KeyboardEvent &&
+    (event.altKey || event.shiftKey || event.ctrlKey)
+  ) {
+    return;
+  }
   const content = messageContent.value;
   messageContent.value = "";
   const inputMessage = { role: "user", content };
@@ -93,8 +99,12 @@ const currentOutputMessageContent = ref("");
       </div>
     </div>
     <div id="inputArea">
-      <Textarea v-model="messageContent" name="chatInput" />
-      <Button @click="submitChat">Submit Chat</Button>
+      <Textarea
+        v-model="messageContent"
+        @keyup.enter="submitChat"
+        id="chatInput"
+      />
+      <Button @click="submitChat" id="submitButton">Submit</Button>
     </div>
   </div>
 </template>
@@ -122,7 +132,17 @@ const currentOutputMessageContent = ref("");
 }
 
 #inputArea {
+  display: flex;
   height: 100px;
   width: 100%;
+  padding: 10px;
+  align-items: space-between;
+}
+
+#chatInput {
+  width: calc(70% - 82px);
+  height: 100%;
+  padding: 10px;
+  margin-right: 10px;
 }
 </style>
