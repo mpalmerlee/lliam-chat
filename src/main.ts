@@ -9,6 +9,7 @@ import "primeicons/primeicons.css";
 import PrimeVue from "primevue/config";
 import Button from "primevue/button";
 import Textarea from "primevue/textarea";
+import Avatar from "primevue/avatar";
 
 import App from "./App.vue";
 import router from "./router";
@@ -21,5 +22,6 @@ app.use(router);
 
 app.component("Button", Button);
 app.component("Textarea", Textarea);
+app.component("Avatar", Avatar);
 
 app.mount("#app");

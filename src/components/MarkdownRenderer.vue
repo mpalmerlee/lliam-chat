@@ -19,14 +19,14 @@ const markdown = new MarkdownIt();
   box-sizing: border-box;
   min-width: 200px;
   max-width: 980px;
-  margin: 0 auto;
+  margin: 0 1rem;
   padding: 15px;
   background-color: inherit;
 }
 
 @media (max-width: 767px) {
   .markdown-body {
-    padding: 15px;
+    padding: 5px;
   }
 }
 </style>
