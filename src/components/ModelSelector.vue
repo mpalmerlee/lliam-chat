@@ -12,7 +12,7 @@ const getModels = async () => {
   return response;
 };
 
-const { isPending, isFetching, isError, data, error } = useQuery({
+const { isPending, isError, data, error } = useQuery({
   queryKey: ["models"],
   queryFn: getModels,
 });
@@ -22,16 +22,25 @@ const { isPending, isFetching, isError, data, error } = useQuery({
   <div id="modelSelectorContainer">
     <div id="modelSelector" class="flex flex-column h-10rem">
       <span class="text-lg font-bold">Model</span>
-      <Dropdown
-        v-if="data"
-        v-model="currentModel"
-        editable
-        :options="data.models"
-        optionLabel="name"
-        optionValue="model"
-        placeholder="Select a Model"
-        class="w-full md:w-14rem"
-      />
+      <div v-if="isPending">
+        <Dropdown
+          placeholder="Loading Models..."
+          loading
+          class="w-full md:w-14rem"
+        ></Dropdown>
+      </div>
+      <div v-else-if="isError">An error has occurred: {{ error }}</div>
+      <div v-else-if="data" class="flex">
+        <Dropdown
+          v-model="currentModel"
+          :options="data.models"
+          optionLabel="name"
+          optionValue="model"
+          placeholder="Select a Model"
+          class="w-full md:w-14rem"
+        />
+        <Button icon="pi pi-plus" aria-label="Add Model" class="ml-2" />
+      </div>
       <div id="progressArea" class="mt-2">
         <ProgressBar :value="40"> 40/100 </ProgressBar>
       </div>

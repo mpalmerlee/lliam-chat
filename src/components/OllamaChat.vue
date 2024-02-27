@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import ollama, { type Message, type ChatResponse } from "ollama";
-import { ref } from "vue";
+import { ref, toRefs } from "vue";
 import ChatMessage from "./ChatMessage.vue";
+import { useModelStore } from "@/stores/model";
 
+const modelStore = useModelStore();
+const { currentModel } = toRefs(modelStore);
 const chatArea = ref<HTMLElement | null>(null);
 
 const scrollToBottom = () => {
@@ -54,7 +57,7 @@ const submitChat = async (event: Event) => {
   messages.value.push(inputMessage);
   scrollToBottom();
 
-  const response = await tryChat("codellama", inputMessage);
+  const response = await tryChat(currentModel.value, inputMessage);
   if (!response) return;
 
   const appendMessage = () => {
