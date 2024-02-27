@@ -4,9 +4,9 @@ import { defineStore } from "pinia";
 export const useModelStore = defineStore("model", () => {
   const currentModel = ref("llama2:latest");
 
-  const setModel = (newModel: string) => {
+  const setCurrentModel = (newModel: string) => {
     currentModel.value = newModel;
   };
 
-  return { currentModel, setModel };
+  return { currentModel, setCurrentModel };
 });

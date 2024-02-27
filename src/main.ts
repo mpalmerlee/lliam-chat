@@ -11,6 +11,8 @@ import Textarea from "primevue/textarea";
 import Avatar from "primevue/avatar";
 import Dropdown from "primevue/dropdown";
 import ProgressBar from "primevue/progressbar";
+import Dialog from "primevue/dialog";
+import InputText from "primevue/inputtext";
 
 import "primevue/resources/themes/aura-light-green/theme.css";
 import "primevue/resources/primevue.min.css";
@@ -32,5 +34,7 @@ app.component("Textarea", Textarea);
 app.component("Avatar", Avatar);
 app.component("Dropdown", Dropdown);
 app.component("ProgressBar", ProgressBar);
+app.component("Dialog", Dialog);
+app.component("InputText", InputText);
 
 app.mount("#app");
