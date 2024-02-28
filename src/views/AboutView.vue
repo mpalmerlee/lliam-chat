@@ -12,7 +12,7 @@
       <div class="pt-6">
         <ul>
           <li>
-            <a href="https://github.com/mpalmerlee/ollama-web"
+            <a href="https://github.com/mpalmerlee/lliam-chat"
               >Lliam Chat Github</a
             >
           </li>

@@ -4,13 +4,7 @@ import { RouterLink, RouterView } from "vue-router";
 
 <template>
   <header>
-    <img
-      alt="Ollama logo"
-      class="logo"
-      src="@/assets/ollama-logo.png"
-      width="45"
-      height="64"
-    />
+    <Avatar label="🖥️" size="xlarge" />
 
     <div class="wrapper">
       <nav>
