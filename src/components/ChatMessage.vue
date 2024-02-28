@@ -40,7 +40,6 @@ const avatarIconClass = computed(() => {
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
-  max-width: 70%;
 }
 .userMessage {
   background-color: var(--primary-50);

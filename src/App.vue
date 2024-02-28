@@ -4,11 +4,10 @@ import { RouterLink, RouterView } from "vue-router";
 
 <template>
   <header>
-    <Avatar label="🖥️" size="xlarge" />
-
+    <div class="text-8xl">🖥️</div>
     <div class="wrapper">
       <nav>
-        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/">Chat</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>
@@ -36,7 +35,6 @@ nav {
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
-  margin-left: -1rem;
   font-size: 1rem;
   padding: 1rem 0;
   margin-top: 1rem;
@@ -51,6 +49,7 @@ nav a.router-link-exact-active:hover {
 }
 
 nav a {
+  width: 100%;
   display: inline-block;
   padding: 0 1rem;
   border-left: 1px solid var(--color-border);

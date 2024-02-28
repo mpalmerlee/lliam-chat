@@ -82,7 +82,7 @@ const submitChat = async (event: Event) => {
 
 const messageContent = ref("Why is the sky blue?");
 const messages = ref([
-  { role: "agent", content: "Hello, I am Ollama. How can I help you?" },
+  { role: "agent", content: "Hello, I am Lliam. How can I help you?" },
 ]);
 const currentOutputMessageContent = ref("");
 </script>
@@ -143,7 +143,7 @@ const currentOutputMessageContent = ref("");
 }
 
 #chatInput {
-  width: calc(70% - 82px);
+  width: calc(100% - 82px);
   height: 100%;
   padding: 10px;
   margin-right: 10px;
