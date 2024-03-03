@@ -10,6 +10,13 @@ const chatArea = ref<HTMLElement | null>(null);
 
 const scrollToBottom = () => {
   if (!chatArea.value) return;
+  // don't scroll if the user has scrolled up
+  if (
+    chatArea.value.scrollHeight - chatArea.value.scrollTop >
+    chatArea.value.clientHeight + 100
+  ) {
+    return;
+  }
   chatArea.value.scrollTop = chatArea.value.scrollHeight;
 };
 
@@ -44,6 +51,7 @@ const tryChat = async (
   return response;
 };
 
+let i = 0;
 const submitChat = async (event: Event) => {
   if (
     event instanceof KeyboardEvent &&
@@ -68,6 +76,15 @@ const submitChat = async (event: Event) => {
         role: "agent",
         content: content,
       });
+      // auto-chat
+      // i++;
+      // setTimeout(() => {
+      //   messageContent.value =
+      //     i % 2 === 1
+      //       ? `Pose a new question to me based on the main points of this text: \n---\n${content}\n---\n`
+      //       : content;
+      //   submitChat(event);
+      // }, 0);
       scrollToBottom();
     }
     currentOutputMessageContent.value = "";
