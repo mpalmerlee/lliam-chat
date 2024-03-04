@@ -10,10 +10,16 @@ const { currentModel } = toRefs(modelStore);
 
 const getModels = async () => {
   const response = await ollama.list();
-  const mostRecentModel = response.models.reduce((a, b) =>
-    a.modified_at > b.modified_at ? a : b,
-  );
-  modelStore.setCurrentModel(mostRecentModel.name);
+  const lastSelectedModel = localStorage.getItem("lastSelectedModel");
+  if (lastSelectedModel) {
+    modelStore.setCurrentModel(lastSelectedModel);
+  } else {
+    const mostRecentModel = response.models.reduce((a, b) =>
+      a.modified_at > b.modified_at ? a : b,
+    );
+    modelStore.setCurrentModel(mostRecentModel.name);
+  }
+
   return response;
 };
 
@@ -55,6 +61,10 @@ const pullModel = (name: string) => {
   pullModelMutation.mutate(name);
   dialogVisible.value = false;
 };
+
+const newModelSelected = () => {
+  localStorage.setItem("lastSelectedModel", currentModel.value);
+};
 </script>
 
 <template>
@@ -77,6 +87,7 @@ const pullModel = (name: string) => {
           optionValue="model"
           placeholder="Select a Model"
           class="w-full md:w-14rem"
+          @change="newModelSelected"
         />
         <Button
           icon="pi pi-plus"
