@@ -7,13 +7,15 @@ import { useModelStore } from "@/stores/model";
 const modelStore = useModelStore();
 const { currentModel } = toRefs(modelStore);
 const chatArea = ref<HTMLElement | null>(null);
+const answerLoading = ref(false);
 
-const scrollToBottom = () => {
+const scrollToBottom = (force: boolean) => {
   if (!chatArea.value) return;
   // don't scroll if the user has scrolled up
   if (
+    !force &&
     chatArea.value.scrollHeight - chatArea.value.scrollTop >
-    chatArea.value.clientHeight + 100
+      chatArea.value.clientHeight + 50
   ) {
     return;
   }
@@ -59,13 +61,15 @@ const submitChat = async (event: Event) => {
   ) {
     return;
   }
+  answerLoading.value = true;
   const content = messageContent.value;
   messageContent.value = "";
   const inputMessage = { role: "user", content };
   messages.value.push(inputMessage);
-  scrollToBottom();
+  scrollToBottom(true);
 
   const response = await tryChat(currentModel.value, inputMessage);
+  answerLoading.value = false;
   if (!response) return;
 
   const appendMessage = () => {
@@ -76,23 +80,26 @@ const submitChat = async (event: Event) => {
         role: "agent",
         content: content,
       });
-      // auto-chat
+      scrollToBottom(true);
+      // auto-chat: uncomment to have the agent interact with itself
       // i++;
       // setTimeout(() => {
       //   messageContent.value =
       //     i % 2 === 1
-      //       ? `Pose a new question to me based on the main points of this text: \n---\n${content}\n---\n`
+      //       ? `Pose a new question to me based on the main points of this text: \n\n---\n\n${content}\n\n---\n\n`
       //       : content;
       //   submitChat(event);
       // }, 0);
-      scrollToBottom();
     }
     currentOutputMessageContent.value = "";
   };
 
   for await (const part of response) {
+    const forceScroll = !currentOutputMessageContent.value;
     currentOutputMessageContent.value += part.message.content;
-    scrollToBottom();
+    setTimeout(() => {
+      scrollToBottom(forceScroll);
+    }, 100);
   }
   appendMessage();
 };
@@ -116,6 +123,16 @@ const currentOutputMessageContent = ref("");
             :message="{ role: 'agent', content: currentOutputMessageContent }"
           />
         </div>
+        <div v-else-if="answerLoading">
+          <ChatMessage :message="{ role: 'agent', content: '' }">
+            <div class="flex flex-column ml-4">
+              <Skeleton class="mb-2"></Skeleton>
+              <Skeleton width="10rem" class="mb-2"></Skeleton>
+              <Skeleton width="5rem" class="mb-2"></Skeleton>
+              <Skeleton width="2rem" class="mb-2"></Skeleton>
+            </div>
+          </ChatMessage>
+        </div>
       </div>
     </div>
     <div id="inputArea">
@@ -124,7 +141,12 @@ const currentOutputMessageContent = ref("");
         @keyup.enter="submitChat"
         id="chatInput"
       />
-      <Button @click="submitChat" id="submitButton">Submit</Button>
+      <Button
+        :disabled="answerLoading ? true : undefined"
+        @click="submitChat"
+        id="submitButton"
+        >Submit</Button
+      >
     </div>
   </div>
 </template>

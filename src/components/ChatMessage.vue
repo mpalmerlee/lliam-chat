@@ -29,7 +29,12 @@ const avatarIconClass = computed(() => {
     <Avatar :class="avatarClass"
       ><i :class="avatarIconClass" style="font-size: 1rem"></i
     ></Avatar>
-    <MarkdownRenderer :source="props.message.content"></MarkdownRenderer>
+    <div v-if="$slots.default">
+      <slot></slot>
+    </div>
+    <div v-else>
+      <MarkdownRenderer :source="props.message.content"></MarkdownRenderer>
+    </div>
   </div>
 </template>
 
